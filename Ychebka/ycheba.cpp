@@ -1,73 +1,72 @@
 #include <iostream>
-#include <limits>
-#include <iomanip>
+#include <cmath>
+
 using namespace std;
-int main() {
-    cout << "----------------------------------\n";
-    cout << "Number one\n";
-
-    double x, y;
-
-    while (true) {
-        cout << "Enter the value x: ";
-        cin >> x;
-
-        if (cin.good()) {
-            break;
+// 1
+   
+bool isLeapYear(int year) {
+    
+    if (year % 4 == 0) {
+        if (year % 100 == 0) {
+            return (year % 400 == 0);
         }
         else {
-            cout << "Error: Invalid input. Please enter a number.\n" << endl;
-            cin.clear();
-
-
+            return true; // год делится на 4, но не на 100
         }
-    }
-    while (true) {
-        cout << "Enter the value y: ";
-        cin >> y;
-
-        if (cin.good()) {
-            break;
-        }
-        else {
-            cout << "Error: Invalid input. Please enter a number.\n" << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-    }
-
-    double z = pow(y, 3) - 2 * pow(x, 2) + 7 * x * y - 4;
-
-    cout << "Answer number one: " << z << endl;
-    cout << "----------------------------------\n";
-    cout << "Number two\n";
-
-    while (true) {
-        cout << "Enter the value x: ";
-        cin >> x;
-
-        if (cin.good()) {
-            break;
-        }
-        else {
-            cout << "Error: Invalid input. Please enter a number.\n" << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-    }
-
-    if (x <= -3) {
-        y = sin(pow(x, 2));
-    }
-    else if (x > -3 && x < 5) {
-        y = 1 + exp(-x);
     }
     else {
-        y = log(pow(x, 2)) / (3 + 4 * x);
+        return false; // год не делится на 4
+    }
+}
+
+// 2
+double calculateY(double x) {
+    double a = 0.361; 
+    double y;
+
+    if (x < -2.5) {
+        y = a * pow(sin(2 * x + 1), 2); // a * sin^2(2x + 1)
+    }
+    else if (x >= -2.5 && x < 4) {
+        y = x * sin(x * a); // x * sin(x * a)
+    }
+    else {
+        y = exp(x); // e^x
     }
 
-    cout << "Answer nubmer two, y: " << fixed << setprecision(6) << y << endl;
-    cout << "----------------------------------\n";
+    return y;
+}
 
+int main() {
+    // номер 1
 
+    int year;
+    setlocale(LC_ALL, "Russian");
+    cout << "Введите год: ";
+    cin >> year;
+    if (cin.fail()) {
+        cout << "Ошибка, введите число." << endl;
+    }
+
+    if (isLeapYear(year)) {
+        cout << year << " год является високосным." << endl;
+    }
+    else {
+        cout << year << " год не является високосным." << endl;
+    }
+    cout << endl;
+    // номер 2
+
+    double x;
+    cout << "Введите значение x: ";
+    cin >> x;
+    if (cin.fail()) {
+        cout << "Ошибка, введите число." << endl;
+    }
+
+    double y = calculateY(x);
+
+    cout << "Значение y: " << y << endl;
+
+    return 0;
 }
