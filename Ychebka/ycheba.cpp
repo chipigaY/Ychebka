@@ -1,72 +1,63 @@
+/*//#1
 #include <iostream>
-#include <cmath>
-
-using namespace std;
-// 1
-   
-bool isLeapYear(int year) {
-    
-    if (year % 4 == 0) {
-        if (year % 100 == 0) {
-            return (year % 400 == 0);
-        }
-        else {
-            return true; // год делится на 4, но не на 100
-        }
-    }
-    else {
-        return false; // год не делится на 4
-    }
-}
-
-// 2
-double calculateY(double x) {
-    double a = 0.361; 
-    double y;
-
-    if (x < -2.5) {
-        y = a * pow(sin(2 * x + 1), 2); // a * sin^2(2x + 1)
-    }
-    else if (x >= -2.5 && x < 4) {
-        y = x * sin(x * a); // x * sin(x * a)
-    }
-    else {
-        y = exp(x); // e^x
-    }
-
-    return y;
-}
-
+#include <cstdlib>
+#include <ctime>
 int main() {
-    // номер 1
-
-    int year;
     setlocale(LC_ALL, "Russian");
-    cout << "Введите год: ";
-    cin >> year;
-    if (cin.fail()) {
-        cout << "Ошибка, введите число." << endl;
+    const int SIZE = 10;
+    int A[SIZE];
+    srand(time(0));
+    for (int ptr = 0; ptr < SIZE; ++ptr) {
+        *(A + ptr) = std::rand() % 101; //от 0 до 100
     }
-
-    if (isLeapYear(year)) {
-        cout << year << " год является високосным." << endl;
+    std::cout << "сгенерированный массив: ";
+    for (int* ptr = A; ptr < A + SIZE; ++ptr) {
+        std::cout << *ptr << " ";
     }
-    else {
-        cout << year << " год не является високосным." << endl;
+    //поиск наибольшего элемента
+    int* maxPtr = A; //указатель на 1й элемент
+    for (int ptr = 1; ptr < SIZE; ++ptr) {
+        if (*(A + ptr) > *maxPtr) {
+            maxPtr = A + ptr; //обновление указателя на максимальный элемент
+        }
     }
-    cout << endl;
-    // номер 2
-
-    double x;
-    cout << "Введите значение x: ";
-    cin >> x;
-    if (cin.fail()) {
-        cout << "Ошибка, введите число." << endl;
+    if (maxPtr != A) {
+        int temp = *maxPtr;
+        *maxPtr = *A;
+        *A = temp;
     }
-
-    double y = calculateY(x);
-
-    cout << "Значение y: " << y << endl;
-
+    std::cout << "преобразованный массив: ";
+    for (int ptr = 0; ptr < SIZE; ++ptr) {
+        std::cout << *(A + ptr) << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}*/
+//#2
+#include <iostream>
+#include <cstdlib> 
+#include <ctime>   
+int main() {
+    setlocale(LC_ALL, "Russian");
+    const int size = 10; 
+    double arr[size];    
+    double* ptr = arr;   //указатель 
+    double sum_negative = 0; // хранение суммы отр.чисел
+    srand(time(0));
+    for (int i = 0; i < size; ++i) {
+        *(ptr + i) = 200.0 * rand() / RAND_MAX - 100.0; //диапазон [-100, 100]
+    }
+    std::cout << "сгенерированный массив: ";
+    for (int i = 0; i < size; ++i) {
+        std::cout << *(ptr + i) << " ";
+    }
+    std::cout << std::endl;
+    //сум отрицательных элементов
+    for (int i = 0; i < size; ++i) {
+        if (*(ptr + i) < 0) {
+            sum_negative += *(ptr + i);
+        }
+    }
+    std::cout << "сумма отрицательных элементов: " << sum_negative << std::endl;
     return 0;
 }
